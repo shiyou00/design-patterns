@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>单一职责原则</title>
+</head>
+<body>
+
+
+<script>
+    const list = [
+      {
+        id:"1",
+        name:"jack1",
+        age:11,
+        address:"a1"
+      },
+      {
+        id:"4",
+        name:"jack4",
+        age:20,
+        address:"a4"
+      },
+      {
+        id:"4",
+        name:"jack4",
+        age:20,
+        address:"a4"
+      },
+      {
+        id:"2",
+        name:"jack2",
+        age:12,
+        address:"a2"
+      },
+      {
+        id:"3",
+        name:"jack3",
+        age:21,
+        address:"a3"
+      }
+    ];
+
+    const uniq = (list)=>{
+      const temp = {};
+      for(let i=0;i<list.length;i++){
+        if(temp[list[i]["id"]]){
+          list.splice(i,1);
+          i--;
+        }else{
+          temp[list[i]["id"]] = true;
+        }
+      }
+      return list;
+    }
+
+    const sort = (list)=>{
+      return list.sort((a,b)=>{
+        return a.age - b.age;
+      })
+    }
+
+    const insertBody = (list)=>{
+      // 插入页面
+      const ul = document.createElement("ul");
+      list.forEach((item)=>{
+        let li = document.createElement("li");
+        li.textContent = `${item.name} - ${item.age}`;
+        ul.appendChild(li);
+      })
+      document.body.append(ul);
+    }
+
+    const handleData = (list)=>{
+      const uniqList = uniq(list);
+      const sortedList = sort(uniqList);
+      insertBody(sortedList);
+    }
+
+    handleData(list);
+
+    console.log = (func => {
+      return (...args) => {
+        console.info(window.location.href);
+        func.apply(console, args);
+      }
+    })(console.log);
+
+    console.log("123");
+
+</script>
+</body>
+</html>

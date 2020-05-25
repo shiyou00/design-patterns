@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Singleton</title>
+</head>
+<body>
+
+
+<script>
+    class Singleton{
+     static getInstance(){
+        if(!Singleton.instance){ // {1}
+          Singleton.instance = new  Singleton();
+        }
+        return Singleton.instance;
+      }
+    }
+
+    const i1 = Singleton.getInstance();
+    const i2 = Singleton.getInstance();
+    console.log("i1",i1 === i2); // true
+
+    const singleton = (function () {
+        let instance;
+        return function () {
+            if (!instance){
+              instance = new Singleton();
+            }
+            return instance;
+        }
+    })();
+
+    const i3 = singleton();
+    const i4 = singleton();
+
+    console.log("i3",i3 === i4);
+
+</script>
+</body>
+</html>
