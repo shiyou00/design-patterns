@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aop</title>
+</head>
+<body>
+<button id="button">点击打开登录浮层</button>
+
+<script>
+  Function.prototype.before = function( beforefn ){
+    var __self = this;
+    return function(){
+      beforefn.apply( this, arguments );
+      return __self.apply( this, arguments );
+    }
+  }
+
+  Function.prototype.after = function( afterfn ){
+    var __self = this;
+    return function(){
+      var ret = __self.apply( this, arguments );
+      afterfn.apply( this, arguments );
+      return ret;
+    }
+  };
+
+  var showLogin = function(){
+    console.log( '打开登录浮层' );
+  }
+
+  var log = function(){
+    var tagNum = window.localStorage.getItem("tagNum");
+
+    if(!tagNum){
+      window.localStorage.setItem("tagNum","1");
+      return ;
+    }
+    +tagNum ++;
+    window.localStorage.setItem("tagNum",tagNum);
+
+    console.log( '上报数据为: ' + tagNum );
+  }
+
+  showLogin = showLogin.after(log);
+
+  document.getElementById( 'button' ).onclick = showLogin;
+
+</script>
+</body>
+</html>
